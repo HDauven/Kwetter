@@ -1,0 +1,7 @@
+Person:
+  - id: 1
+    name: "Hein"
+    lastname: "Dauven"
+  - id: 2
+    name: "Regi"
+    lastname: "Cookies"
