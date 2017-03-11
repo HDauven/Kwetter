@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArquillianContainersManager">
+    <container containerId="container.arquillian.manual" name="Manual container configuration">
+      <exist-library name="Maven: fish.payara.extras:payara-embedded-all:4.1.1.171.0.1" level="project" />
+      <configurationSpecific>
+        <configurationSpecific runContainerQualifier="glassfish-embedded" />
+      </configurationSpecific>
+    </container>
+  </component>
+</project>
