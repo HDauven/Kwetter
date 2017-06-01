@@ -1,6 +1,7 @@
 package com.kwetter.dao;
 
-import com.kwetter.domain.Person;
+import com.kwetter.dao.jpa.GenericDaoJPA;
+import com.kwetter.model.Person;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -8,16 +9,25 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- *
- * @author hein
+ * Created by hein on 3/11/17.
  */
-@Stateless
-public class PersonDao {
+public interface PersonDao extends GenericDao<Person> {
 
-    @PersistenceContext
-    private EntityManager em;
+    /**
+     * Retrieve a Person from the data store with the corresponding username.
+     *
+     * @param username The username of the Person requested from the data store.
+     * @return The Person with a matching username.
+     */
+    Person findByUsername(String username);
 
-    public List<Person> getAll() {
-        return em.createNamedQuery("Person.getAll", Person.class).getResultList();
-    }
+    Long numberOfFollowers(Long userId);
+
+    Long numberOfFollowing(Long userId);
+
+    Long numberOfTweets(Long userId);
+
+    Long numberOfLikes(Long userId);
+
+    Long numberOfMentions(Long userId);
 }

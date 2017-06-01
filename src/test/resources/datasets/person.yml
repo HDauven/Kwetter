@@ -1,7 +1,13 @@
 Person:
   - id: 1
-    name: "Hein"
+    firstname: "Hein"
     lastname: "Dauven"
+    username: "HDauven"
+    email: "heindauven@gmail.com"
+    password: "test"
   - id: 2
-    name: "Regi"
+    firstname: "Regi"
     lastname: "Cookies"
+    username: "Regi"
+    email: "regicookies@gmail.com"
+    password: "test"
