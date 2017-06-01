@@ -4,10 +4,16 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
-    <persistence-unit name="payaraEmbedded" transaction-type="JTA">
-        <jta-data-source>jdbc/payaraEmbedded</jta-data-source>
+    <persistence-unit name="kwetterPU" transaction-type="JTA">
+        <jta-data-source>jdbc/oracle</jta-data-source>
+        <class>com.kwetter.model.Person</class>
+        <class>com.kwetter.model.Tweet</class>
+        <class>com.kwetter.model.Hashtag</class>
+        <class>com.kwetter.model.Group</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
-            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
         </properties>
     </persistence-unit>
 </persistence>
