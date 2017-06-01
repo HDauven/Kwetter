@@ -1,0 +1,12 @@
+<job id="tweetimport" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <properties>
+        <property name="input" value="tweets.txt"/>
+    </properties>
+    <step id="step1">
+        <chunk checkpoint-policy="item" item-count="3">
+            <reader ref="tweetReader"></reader>
+            <processor ref="tweetProcessor"></processor>
+            <writer ref="tweetWriter"></writer>
+        </chunk>
+    </step>
+</job>
