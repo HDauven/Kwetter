@@ -15,6 +15,7 @@ public interface PersonDao extends GenericDao<Person> {
 
     /**
      * Retrieve a Person from the data store with the corresponding username.
+     *
      * @param username The username of the Person requested from the data store.
      * @return The Person with a matching username.
      */
