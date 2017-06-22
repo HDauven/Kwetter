@@ -1,0 +1,128 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/default.xhtml">
+
+    <ui:param name="menuRendered" value="true"/>
+
+    <ui:define name="title">Kwetter Admin - Users</ui:define>
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 global-inner-container ui-g-nopad">
+                <div class="local-header">
+                    <h1>Administer Users</h1>
+                </div>
+                <div class="local-container">
+                    <h2>List of users</h2>
+
+                    <p:dataTable id="userlist" value="#{adminUserController.users}" var="user" border="1" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,20,50">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Id"/>
+                            </f:facet>
+                            <h:link outcome="viewUser.xhtml?id=#{user.id}" value="#{user.id}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Username"/>
+                            </f:facet>
+                            <h:outputText value="#{user.username}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{user.email}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="First name"/>
+                            </f:facet>
+                            <h:outputText value="#{user.firstName}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Last name"/>
+                            </f:facet>
+                            <h:outputText value="#{user.lastName}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Verified"/>
+                            </f:facet>
+                            <h:selectBooleanCheckbox value="#{user.verified}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Role(s)"/>
+                            </f:facet>
+                            <p:dataList value="#{user.groups}" var="role">
+                                <h:outputText value="#{role.groupName}"/>
+                            </p:dataList>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Creation date"/>
+                            </f:facet>
+                            <h:outputText value="#{user.createdAt}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <br/><hr/><br/>
+                    <h2>Create new user</h2>
+
+                    <h:form id="userForm">
+
+                        <h:panelGrid columns="2" styleClass="centered-container">
+                            <h:outputLabel value="Username: "/>
+                            <h:inputText value="#{adminUserController.username}"/>
+
+                            <h:outputLabel value="Password: "/>
+                            <h:inputText value="#{adminUserController.password}"/>
+
+                            <h:outputLabel value="Email: "/>
+                            <h:inputText value="#{adminUserController.email}"/>
+
+                            <h:outputLabel value="First name: "/>
+                            <h:inputText value="#{adminUserController.firstName}"/>
+
+                            <h:outputLabel value="Last name: "/>
+                            <h:inputText value="#{adminUserController.lastName}"/>
+
+                            <h:outputLabel value="Verified: "/>
+                            <h:selectBooleanCheckbox value="#{adminUserController.verified}"/>
+
+                            <h:outputLabel value="Profile description: "/>
+                            <h:inputText value="#{adminUserController.description}"/>
+
+                            <h:outputLabel value="Profile image: "/>
+                            <h:inputText value="#{adminUserController.profileImageUrl}"/>
+
+                            <h:commandButton value="Create a user" action="#{adminUserController.doCreateUser}">
+                                <f:ajax execute="@form" render=":userlist"/>
+                            </h:commandButton>
+                        </h:panelGrid>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
