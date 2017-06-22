@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+    http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <name>Kwetter</name>
+
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>nl</supported-locale>
+        </locale-config>
+
+        <resource-bundle>
+            <base-name>i18n.language</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
+  
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>anonymous-home</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>user-home</from-outcome>
+            <to-view-id>/users/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>user-profile</from-outcome>
+            <to-view-id>/users/profile.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrator-home</from-outcome>
+            <to-view-id>/admin/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrator-tweets</from-outcome>
+            <to-view-id>/admin/tweet.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrator-users</from-outcome>
+            <to-view-id>/admin/user.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrator-batch</from-outcome>
+            <to-view-id>/admin/batch/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+</faces-config>

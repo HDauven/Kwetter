@@ -20,6 +20,7 @@ public class TweetMapper extends GenericMapper<Tweet, TweetDto> {
             tweetDto.setRepliedTo(tweet.getRepliedTo().getId());
         }
         tweetDto.setLikes(tweet.getLikesCount());
+        tweetDto.setReplies(tweet.getRepliesCount());
         tweetDto.setCreatedAt(tweet.getCreatedAt());
         return tweetDto;
     }

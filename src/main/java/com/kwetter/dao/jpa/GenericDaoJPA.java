@@ -1,6 +1,7 @@
 package com.kwetter.dao.jpa;
 
 import com.kwetter.dao.GenericDao;
+import org.eclipse.persistence.queries.CursoredStream;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -75,5 +76,16 @@ public abstract class GenericDaoJPA<E> implements GenericDao<E> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public CursoredStream getAll() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<E> cq = cb.createQuery(entityClass);
+        cq.from(entityClass);
+        TypedQuery<E> scrollableCursor = em.createQuery(cq)
+                .setHint("eclipselink.cursor", true)
+                .setHint("eclipselink.cursor.page-size", 10);
+        return (CursoredStream) scrollableCursor.getSingleResult();
     }
 }

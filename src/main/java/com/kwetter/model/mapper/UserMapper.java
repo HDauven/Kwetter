@@ -24,7 +24,9 @@ public class UserMapper extends GenericMapper<Person, UserDto>  {
         userDto.setEmail(person.getEmail());
         userDto.setFirstName(person.getFirstName());
         userDto.setLastName(person.getLastName());
+        userDto.setVerified(person.isVerified());
         userDto.setDescription(person.getDescription());
+        userDto.setProfileImageUrl(person.getProfileImageUrl());
         userDto.setTweets(person.getTweetCount());
         userDto.setFollowers(person.getFollowersCount());
         userDto.setFollowing(person.getFollowingCount());

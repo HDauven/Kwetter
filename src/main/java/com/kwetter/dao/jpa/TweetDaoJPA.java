@@ -8,6 +8,7 @@ import com.kwetter.model.Tweet;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by hein on 5/18/17.
  */
 @Stateless @JPA
-public class TweetDaoJPA extends GenericDaoJPA<Tweet> implements TweetDao {
+public class TweetDaoJPA extends GenericDaoJPA<Tweet> implements TweetDao, Serializable {
     @Override
     public List<Tweet> createTimeline(Person user) {
         try {

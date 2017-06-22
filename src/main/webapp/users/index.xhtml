@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/default.xhtml">
+
+    <ui:param name="menuRendered" value="true"/>
+
+    <ui:define name="title">Kwetter</ui:define>
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4 ui-g-nopad">
+                <div class="global-inner-container">
+                    <div class="local-header">
+                        <h1>#{profileController.user.username}</h1>
+                    </div>
+                    <div class="local-container">
+                        <h:form id="profileForm">
+                            <p:panelGrid styleClass="centered-container">
+                                <f:facet name="header">
+                                    <p:graphicImage height="200px" width="200px" url="#{profileController.user.profileImageUrl}" style="display: block; margin: auto;"/>
+                                </f:facet>
+                                <p:row>
+                                    <p:column>Tweets</p:column>
+                                    <p:column>Following</p:column>
+                                    <p:column>Followers</p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>#{profileController.user.tweetCount}</p:column>
+                                    <p:column>#{profileController.user.followingCount}</p:column>
+                                    <p:column>#{profileController.user.followersCount}</p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+                <div style="padding-top: 1em"></div>
+                <div class="global-inner-container">
+                    <div class="local-header">
+                        <h1>Trending</h1>
+                    </div>
+                    <div class="local-container">
+                        <p:dataList id="trends" value="#{profileController.trendingHashtags}" var="trends" type="ordered">
+                            <p:link value="#{trends.tag} - #{profileController.trending[trends]}"/>
+                        </p:dataList>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 0 1em"></div>
+            <div class="ui-g-7 global-inner-container ui-g-nopad">
+                <h:form id="tweetForm">
+                    <div class="local-container">
+                        <h:panelGrid columns="1" styleClass="centered-container">
+                            <h:outputLabel value="What's happening? "/>
+                            <p:inputTextarea value="#{profileController.message}" rows="3" cols="80" counter="display" maxlength="140" counterTemplate="{0} characters remaining." autoResize="true" />
+                            <h:outputText id="display" />
+
+                            <p:commandButton value="Tweet" action="#{profileController.doCreateTweet}" update=":tweetForm:timeline :profileForm :trends"/>
+                        </h:panelGrid>
+                    </div>
+                    <p:tabView id="timeline" cache="false">
+                        <p:tab title="Timeline" id="timelineContainer">
+                            <div class="local-container">
+                                <p:dataScroller id="timeline_user" value="#{profileController.timeline}" var="tweet" chunkSize="10">
+                                    <hr/>
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage height="50px" width="50px" url="#{tweet.tweeter.profileImageUrl}"/>
+                                        <p:outputPanel>
+                                            <h:panelGrid columns="1">
+                                                <h:link outcome="profile.xhtml?id=#{tweet.tweeter.username}" value="#{tweet.tweeter.username}"/>
+                                                <h:outputText value="#{tweet.description}"/>
+                                                <h:outputText value="#{tweet.createdAt}">
+                                                    <f:convertDateTime pattern="hh:mm a - dd MMM yyyy"/>
+                                                </h:outputText>
+                                            </h:panelGrid>
+                                            <h:panelGrid columns="3" id="tweetcounterpanel">
+                                                <p:commandButton icon="fa fa-heart fa-red" rendered="#{profileController.doCheckIfUserLikedTweet(tweet)}"
+                                                                 value="#{tweet.likesCount}" update=":tweetForm:timeline:timeline_user:tweetcounterpanel :tweetForm:timeline:mention_user"
+                                                                 action="#{profileController.doUnlikeTweet(tweet)}">
+                                                </p:commandButton>
+                                                <p:commandButton icon="fa fa-heart" rendered="#{!profileController.doCheckIfUserLikedTweet(tweet)}"
+                                                                 value="#{tweet.likesCount}" update=":tweetForm:timeline:timeline_user:tweetcounterpanel :tweetForm:timeline:mention_user"
+                                                                 action="#{profileController.doLikeTweet(tweet)}">
+                                                </p:commandButton>
+                                                <div style="padding-right: .1em"></div>
+                                                <p:commandButton icon="fa fa-reply" value="#{tweet.repliesCount}">
+                                                </p:commandButton>
+                                            </h:panelGrid>
+                                        </p:outputPanel>
+                                    </h:panelGrid>
+                                </p:dataScroller>
+                            </div>
+                        </p:tab>
+                        <p:tab title="Mentions" id="mentionContainer">
+                            <div class="local-container">
+                                <p:dataScroller id="mention_user" value="#{profileController.mentions}" var="tweet" chunkSize="10">
+                                    <hr/>
+                                    <h:panelGrid columns="2">
+                                        <p:graphicImage height="50px" width="50px" url="#{tweet.tweeter.profileImageUrl}"/>
+                                        <p:outputPanel>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText value="#{tweet.tweeter.username}"/>
+                                                <h:outputText value="#{tweet.description}"/>
+                                                <h:outputText value="#{tweet.createdAt}">
+                                                    <f:convertDateTime pattern="hh:mm a - dd MMM yyyy"/>
+                                                </h:outputText>
+                                            </h:panelGrid>
+                                            <h:panelGrid columns="3" id="mentiontweetcounterpanel">
+                                                <p:commandButton icon="fa fa-heart fa-red" rendered="#{profileController.doCheckIfUserLikedTweet(tweet)}"
+                                                                 value="#{tweet.likesCount}" update=":tweetForm:timeline:mention_user:mentiontweetcounterpanel :tweetForm:timeline:timeline_user"
+                                                                 action="#{profileController.doUnlikeTweet(tweet)}">
+                                                </p:commandButton>
+                                                <p:commandButton icon="fa fa-heart" rendered="#{!profileController.doCheckIfUserLikedTweet(tweet)}"
+                                                                 value="#{tweet.likesCount}" update=":tweetForm:timeline:mention_user:mentiontweetcounterpanel :tweetForm:timeline:timeline_user"
+                                                                 action="#{profileController.doLikeTweet(tweet)}">
+                                                </p:commandButton>
+                                                <div style="padding-right: .1em"></div>
+                                                <p:commandButton icon="fa fa-reply" value="#{tweet.repliesCount}">
+                                                </p:commandButton>
+                                            </h:panelGrid>
+                                        </p:outputPanel>
+                                    </h:panelGrid>
+                                </p:dataScroller>
+                            </div>
+                        </p:tab>
+                    </p:tabView>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
