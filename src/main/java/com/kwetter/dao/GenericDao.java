@@ -1,5 +1,7 @@
 package com.kwetter.dao;
 
+import org.eclipse.persistence.queries.CursoredStream;
+
 import java.util.List;
 
 /**
@@ -44,6 +46,8 @@ public interface GenericDao<E> {
      * @return A list of all the objects.
      */
     List<E> findAll();
+
+    CursoredStream getAll();
 
     /**
      * Check whether an object exists in the data store. Finds the object by passing in the ID of the object.
